@@ -1,0 +1,41 @@
+server:
+  port: 8081
+
+spring:
+  application:
+    name: dataingestion
+  datasource:
+    url: jdbc:postgresql://localhost:5432/macrodb
+    username: postgres
+    password: password
+    hikari:
+      maximum-pool-size: 10
+      minimum-idle: 2
+      idle-timeout: 30000
+      max-lifetime: 1800000
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: true
+    open-in-view: false
+  kafka:
+    bootstrap-servers: localhost:9092
+    producer:
+      acks: all
+      retries: 5
+      properties:
+        enable.idempotence: true
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,prometheus
+
+fred:
+  base-url: https://api.stlouisfed.org
+  api-key: YOUR_API_KEY
+  connect-timeout-ms: 5000
+  read-timeout-ms: 10000
